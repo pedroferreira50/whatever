@@ -37,6 +37,14 @@ static int	ft_putstr(char *str)
 	return (length);
 }
 
+static void	findpointer(void *ptr, int *len)
+{
+	if ((unsigned long long)ptr == 0)
+		*len += ft_putstr("(nil)");
+	else
+		*len += ft_base_ul((unsigned long)ptr, "0123456789abcdef");
+}
+
 static void	findformat(char c, va_list args, int *len)
 {
 	void	*ptr;
@@ -50,10 +58,7 @@ static void	findformat(char c, va_list args, int *len)
 	else if (c == 'p')
 	{
 		ptr = va_arg(args, void *);
-		if ((unsigned long long)ptr == 0)
-			*len += ft_putstr("(nil)");
-		else
-			*len += ft_base_ul((unsigned long)ptr, "0123456789abcdef");
+		findpointer(ptr, len);
 	}
 	else if (c == 'i')
 		*len += ft_base(va_arg(args, int), "0123456789");
@@ -65,6 +70,8 @@ static void	findformat(char c, va_list args, int *len)
 		*len += ft_base_u((unsigned long)va_arg(args, int), "0123456789ABCDEF");
 	else if (c == '%')
 		*len += ft_putchar('%');
+	else
+		*len += ft_putchar('%') + ft_putchar(c);
 }
 
 int	ft_printf(const char *str, ...)
@@ -90,17 +97,18 @@ int	ft_printf(const char *str, ...)
 	va_end(args);
 	return (length);
 }
+
 /*
 int main(void)
 {
 	char *str = "Hello, world!";
     int num = 42;
-	printf("int %d custom \n",ft_printf(" %u ", -1));
-	printf("int %d origin \n",printf(" %u ", -1));
+	printf("int custom \n");
+	printf("int origin \n");
 	return (0);
-}
-*/
-/*
+}*/
+
+
 int main(void)
 {
     char *str = "Hello, world!";
@@ -116,6 +124,8 @@ int main(void)
     ft_printf("Lowercase Hex (x): %x\n", num);
     ft_printf("Uppercase Hex (X): %X\n", num);
     ft_printf("Percentage (%%): %%\n");
+	//ft_printf("Solo Percentage: %\n");
+	//ft_printf("Undefined %y\n");
 
     printf("\nResults using standard printf:\n");
     printf("Character: %c\n", 'A');
@@ -127,7 +137,8 @@ int main(void)
     printf("Lowercase Hex (x): %x\n", num);
     printf("Uppercase Hex (X): %X\n", num);
     printf("Percentage (%%): %%\n");
+	//printf("Solo Percentage: %\n");
+	//printf("Undefined %y\n");
 
-    return 0;
+    return (0);
 }
-*/
