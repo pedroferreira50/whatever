@@ -98,10 +98,10 @@ char	*get_next_line(int fd)
 
 	i = 0;
 	line = NULL;
+	if (fd < 0 || fd > 4095 || BUFFER_SIZE < 0)
+		return (NULL);
 	buffer_fd[fd] = get_next_line_two(buffer_fd[fd], fd, &i);
 	if (!buffer_fd[fd])
-		return (NULL);
-	if (fd < 0 || fd > 4095 || BUFFER_SIZE < 0)
 		return (NULL);
 	if (buffer_fd[fd][i] == '\n')
 		i++;
