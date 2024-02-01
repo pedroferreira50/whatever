@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdio.h>
-#include <limits.h>
 
 static int	ft_putchar(char c)
 {
@@ -68,9 +66,7 @@ static void	findformat(char c, va_list args, int *len)
 		*len += ft_base_u((unsigned long)va_arg(args, int), "0123456789abcdef");
 	else if (c == 'X')
 		*len += ft_base_u((unsigned long)va_arg(args, int), "0123456789ABCDEF");
-	else if (c == '%')
-		*len += ft_putchar('%');
-	else if (c == '\0')
+	else if (c == '%' || c == '\0')
 		*len += ft_putchar('%');
 	else
 		*len += ft_putchar('%') + ft_putchar(c);
@@ -99,24 +95,14 @@ int	ft_printf(const char *str, ...)
 	va_end(args);
 	return (length);
 }
-
-/* int main(void)
-{
-	char *str = "Hello, world!";
-    int num = 42;
-	printf("int custom \n");
-	printf("int origin \n");
-	return (0);
-}*/
-
 /*
 int main(void)
 {
     char *str = "Hello, world!";
     int num = 42;
 
-    printf("Testing my printf implementation:\n");
-    printf("%d", ft_printf("Character: %c\n", 'A'));
+    printf("Results using ft_printf:\n\n");
+    //printf("%d", ft_printf("Character: %c\n", 'A'));
     ft_printf("String: %s\n", str);
     ft_printf("Decimal (d): %d\n", num);
     ft_printf("Pointer (p): %p\n", &num);
@@ -125,12 +111,11 @@ int main(void)
     ft_printf("Lowercase Hex (x): %x\n", num);
     ft_printf("Uppercase Hex (X): %X\n", num);
     ft_printf("Percentage (%%): %%\n");
-	//ft_printf("Solo Percentage: %\n");
-	//ft_printf("Undefined %y\n");
-	ft_printf("%K%");
-	ft_printf("%-5%\n");
+	//ft_printf("Solo Percentage/Undefined: %\n");
+	//ft_printf("Undefined: %y\n");
+	//ft_printf("Another undefined: %K%");
 
-    printf("\nResults using standard printf:\n");
+    printf("\nResults using standard printf:\n\n");
     printf("Character: %c\n", 'A');
     printf("String: %s\n", str);
     printf("Decimal (d): %d\n", num);
@@ -140,11 +125,9 @@ int main(void)
     printf("Lowercase Hex (x): %x\n", num);
     printf("Uppercase Hex (X): %X\n", num);
     printf("Percentage (%%): %%\n");
-	//printf("Solo Percentage: %\n");
-	//printf("Undefined %y\n");
-	printf("%K%\n");
-	printf("%-5%");
+	//printf("Solo Percentage/Undefined: %\n");
+	//printf("Undefined: %y\n");
+	//printf("Another undefined: %K%");
 
     return (0);
-}
-*/
+}*/
