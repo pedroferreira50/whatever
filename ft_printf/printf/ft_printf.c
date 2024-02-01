@@ -98,15 +98,14 @@ int	ft_printf(const char *str, ...)
 	return (length);
 }
 
-/*
-int main(void)
+/* int main(void)
 {
 	char *str = "Hello, world!";
     int num = 42;
 	printf("int custom \n");
 	printf("int origin \n");
 	return (0);
-}*/
+}
 
 
 int main(void)
@@ -142,3 +141,4 @@ int main(void)
 
     return (0);
 }
+ */

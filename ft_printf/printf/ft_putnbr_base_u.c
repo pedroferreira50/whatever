@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_base_ul.c                                :+:      :+:    :+:   */
+/*   ft_putnbr_base_u.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pviegas- <pviegas-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/14 16:15:06 by pviegas-          #+#    #+#             */
-/*   Updated: 2023/11/14 17:17:24 by pviegas-         ###   ########.fr       */
+/*   Created: 2023/11/14 16:14:54 by pviegas-          #+#    #+#             */
+/*   Updated: 2023/11/14 16:50:28 by pviegas-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <limits.h>
 #include <unistd.h>
 
-static void	ft_putchar(char c, int *count)
+static void	ft_putchar(char c)
 {
-	write (1, &c, 1);
-	(*count)++;
+	write(1, &c, 1);
 }
 
-static unsigned long long	ft_strlen(char *str)
+static int	ft_strlen(char *str)
 {
-	unsigned long long	length;
+	int	length;
 
 	length = 0;
 	while (*str != '\0')
@@ -57,31 +54,48 @@ static int	valid_base(char *base)
 	return (1);
 }
 
-static void	is_negative(unsigned long long nbr, char *base, int *count)
+static long	is_negative(long nbr, int *count)
 {
-	if (nbr >= ft_strlen(base))
-		is_negative(nbr / ft_strlen(base), base, count);
-	ft_putchar(base[nbr % ft_strlen(base)], count);
+	if (nbr < 0)
+	{
+		ft_putchar('-');
+		nbr = -nbr;
+		(*count)++;
+	}
+	return (nbr);
 }
 
-int	ft_base_ul(unsigned long long nbr, char *base)
+int	ft_base_u(unsigned int nbr, char *base)
 {
-	unsigned long long	l;
-	int					count;
+	long	j;
+	long	l;
+	char	k[32];
+	int		count;
 
 	l = nbr;
+	j = 0;
 	count = 0;
 	if (valid_base(base) == 0)
 		return (0);
-	ft_putchar('0', &count);
-	ft_putchar('x', &count);
-	is_negative(l, base, &count);
+	if (l < 0)
+		l = is_negative(l, &count);
+	while (l >= ft_strlen(base))
+	{
+		k[j++] = base[l % ft_strlen(base)];
+		l = l / ft_strlen(base);
+	}
+	k[j] = base[l];
+	while (j >= 0)
+	{
+		ft_putchar(k[j]);
+		j--;
+		count++;
+	}
 	return (count);
 }
 /*
-int main(void) {
-
-    	ft_putnbr_base(2147483647, "01");
+int main() {
+	ft_putnbr_base(2147483647, "01");
 	ft_putchar('\n');
 	ft_putnbr_base(-2147483648, "01");
 	ft_putchar('\n');
@@ -97,14 +111,6 @@ int main(void) {
 	ft_putchar('\n');
 	ft_putnbr_base(-2147483648, "0123456789ABCDEF");
 	ft_putchar('\n');
-	ft_putnbr_base(LONG_MIN, "0123456789ABCDEF");
-	ft_putchar('\n');
-	ft_putnbr_base(LONG_MAX, "0123456789ABCDEF");
-	ft_putchar('\n');
-	ft_putnbr_base(ULONG_MAX, "0123456789ABCDEF");
-	ft_putchar('\n');
-	ft_putnbr_base(-ULONG_MAX, "0123456789ABCDEF");
 
-    return (0);
-}
-*/
+	return (0);
+}*/

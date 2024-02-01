@@ -38,7 +38,7 @@ static int	valid_base(char *base)
 	i = 0;
 	if (base == (void *)0 || base[0] == '\0' || base[1] == '\0')
 		return (0);
-	while (base[i] != '\0') 
+	while (base[i] != '\0')
 	{
 		if (base[i] < 32 || base[i] > 126 || base[i] == '+' || base[i] == '-')
 			return (0);
