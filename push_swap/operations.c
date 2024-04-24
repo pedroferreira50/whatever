@@ -54,32 +54,31 @@ t_list	ss(t_list **stack_a, t_list **stack_b)
 
 static void	pa(t_list **stack_a, t_list **stack_b)
 {
-    t_list *first_a;
-    t_list *second_a;
-    t_list *first_b;
-    t_list *second_b;
-
-	if (*stack_a == NULL || (*stack_a)->next == NULL || *stack_b == NULL || (*stack_b)->next == NULL)
-        return;
-    first_a = *stack_a;
-    second_a = first_a->next;
-    first_b = *stack_b;
-    second_b = first_b->next;
-    first_a->next = second_b;
-    first_b->next = second_a;
-    if (second_a != NULL)
-        second_a->previous = first_b;
-    if (second_b != NULL)
-        second_b->previous = first_a;
-    if (second_a != NULL)
-        *stack_a = second_a;
-    if (second_b != NULL)
-        *stack_b = second_b;
+    if (*stack_b == NULL)
+        return; // Stack A is empty, nothing to push
+    t_list *top_b = *stack_b; // Get the top element of stack A
+    *stack_b = (*stack_b)->next;
+    top_b->next = *stack_a;
+    if (*stack_a != NULL)
+        (*stack_a)->previous = top_b;
+    top_b->previous = NULL;
+    *stack_a = top_b;
 }
 
-t_list	pb()
+t_list	pb(t_list **stack_a, t_list **stack_b)
 {
+    if (*stack_a == NULL)
+        return; // Stack A is empty, nothing to push
+    
+    t_list *top_a = *stack_a; // Get the top element of stack A
+    *stack_a = (*stack_a)->next; // Move stack A pointer to the next element
 
+    // Update pointers to push the top element of A onto B
+    top_a->next = *stack_b;
+    if (*stack_b != NULL)
+        (*stack_b)->previous = top_a;
+    top_a->previous = NULL; // Ensure previous of the pushed element points to NULL
+    *stack_b = top_a;
 }
 
 t_list	ra()
